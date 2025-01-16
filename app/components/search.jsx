@@ -19,7 +19,9 @@ const Search = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("/api/all-users");
+        const response = await fetch("/api/all-users", {
+          cache: "no-store",
+        });
         if (response.ok) {
           const data = await response.json();
           setUsers(data);
@@ -91,7 +93,8 @@ const Search = () => {
               const isFriend = friendsList.includes(user._id);
               const requestSent = sentRequests.has(user._id);
               const isRequestPending =
-                user.friendRequests && user.friendRequests.includes(currentUserId);
+                user.friendRequests &&
+                user.friendRequests.includes(currentUserId);
 
               return (
                 <div
@@ -124,9 +127,13 @@ const Search = () => {
                       ) : (
                         <IoMdPersonAdd
                           className={`text-xl hover:text-green-400 cursor-pointer duration-150 ${
-                            requestSent ? "text-gray-400 cursor-not-allowed" : ""
+                            requestSent
+                              ? "text-gray-400 cursor-not-allowed"
+                              : ""
                           }`}
-                          onClick={() => !requestSent && handleAddFriend(user._id)}
+                          onClick={() =>
+                            !requestSent && handleAddFriend(user._id)
+                          }
                         />
                       )}
                       <MdReport className="text-xl hover:text-red-500 cursor-pointer duration-150" />
