@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background-color: transparent; 
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px); 
+  }
+  100% {
+    transform: translateY(0);
+  }
+}/* For a starry background effect */
+.starry-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.starry-bg::before,
+.starry-bg::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-repeat: repeat;
+  background-position: center;
+  animation: starMove 100s linear infinite;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.starry-bg::before {
+  background-image:
+    radial-gradient(white 1px, transparent 1px),
+    radial-gradient(white 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+
+.starry-bg::after {
+  background-image:
+    radial-gradient(#ffd700 1px, transparent 1px),
+    radial-gradient(#ffd700 1px, transparent 1px);
+  background-size: 150px 150px;
+  opacity: 0.4;
+  animation-duration: 120s;
+}
+
+@keyframes starMove {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(50%);
+  }
+}
+
