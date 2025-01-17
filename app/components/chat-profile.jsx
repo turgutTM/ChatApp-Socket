@@ -125,9 +125,9 @@ const Chatprofile = ({
                 className="flex gap-3 items-center cursor-pointer"
                 onClick={() => handleProfileClick(friend._id)}
               >
-                <div className="w-12">
+                <div className="w-12 h-12">
                   <img
-                    className="w-full rounded-lg"
+                    className="w-full h-full object-cover rounded-lg"
                     src={friend.profilePhoto || "/profilephoto.jpg"}
                     alt={`${friend.name}'s profile`}
                   />

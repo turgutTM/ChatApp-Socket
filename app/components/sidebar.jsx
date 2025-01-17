@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { RiNotificationFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { LiaUserFriendsSolid } from "react-icons/lia";
-import { ClipLoader } from "react-spinners"; // Import the spinner
+import { ClipLoader } from "react-spinners"; 
 
 const Sidebar = ({ setSelectedComponent, setSelectedProfileId }) => {
   const router = useRouter();
@@ -250,7 +250,7 @@ const Sidebar = ({ setSelectedComponent, setSelectedProfileId }) => {
                       src={
                         request.profilePhoto
                           ? request.profilePhoto
-                          : "/batman.jpg"
+                          : "/profilephoto.jpg"
                       }
                       alt={`${request.name}'s profile`}
                       className="w-14 h-14 rounded-full object-cover mr-4"
@@ -321,7 +321,7 @@ const Sidebar = ({ setSelectedComponent, setSelectedProfileId }) => {
                       src={
                         friend.profilePhoto
                           ? friend.profilePhoto
-                          : "/batman.jpg"
+                          : "/profilephoto.jpg"
                       }
                       alt={`${friend.name}'s profile`}
                       className="w-14 h-14 rounded-full object-cover mr-4"

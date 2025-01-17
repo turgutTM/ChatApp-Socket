@@ -103,7 +103,7 @@ const Search = () => {
                 >
                   <div className="w-16 h-16 rounded-full border-4 border-blue-200 overflow-hidden shadow-lg">
                     <img
-                      src={user.profilePicture || "/batman.jpg"}
+                      src={user.profilePhoto || "/profilephoto.jpg"}
                       alt="Profile"
                       className="w-full h-full object-cover"
                     />

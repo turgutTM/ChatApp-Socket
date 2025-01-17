@@ -263,9 +263,9 @@ const Chatconv = ({
         <>
           <div>
             <div className="flex items-center p-2 border-b-[1px] w-full gap-3 relative">
-              <div className="w-16">
+              <div className="w-16 h-12">
                 <img
-                  className="w-full rounded-full"
+                  className="w-full h-full object-cover rounded-full"
                   src={selectedProfileData?.profilePhoto || "/profilephoto.jpg"}
                   alt="Profile"
                 />

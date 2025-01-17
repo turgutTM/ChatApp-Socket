@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 import { UploadButton } from "@/app/utils/uploadthing";
 
-
 const Profile = ({ profileId }) => {
   const [profileData, setProfileData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -104,7 +103,7 @@ const Profile = ({ profileId }) => {
         </div>
         <div className="mt-16 border-black border-[3px] rounded-full w-44 h-44 relative">
           <img
-            className="w-full rounded-full"
+            className="w-full h-full object-cover rounded-full"
             src={profilePhoto || "/profilephoto.jpg"}
           />
         </div>
