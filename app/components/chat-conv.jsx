@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { BiCheckDouble } from "react-icons/bi";
 import Skeleton from "./Skeleton";
 import socket from "../utils/socket";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 
 const Chatconv = ({
   selectedProfileId,
@@ -288,9 +289,10 @@ const Chatconv = ({
                   <ul className="py-2">
                     <li
                       onClick={handleDeleteMessages}
-                      className="px-4 h-full hover:text-red-500 duration-100 cursor-pointer"
+                      className="px-4 h-full flex items-center gap-1 hover:text-red-500 duration-100 cursor-pointer"
                     >
-                      Delete all messages
+                      <MdOutlineDeleteOutline />
+                      <p className="w-full text-sm"> Delete all messages</p>
                     </li>
                   </ul>
                 </div>

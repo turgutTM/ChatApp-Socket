@@ -1,11 +1,8 @@
-// ./app/api/get-message/route.js
-
 import { NextResponse } from "next/server";
 import connect from "@/db";
 import Message from "@/models/Message";
 
-
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export const GET = async (request) => {
   try {
@@ -34,15 +31,27 @@ export const GET = async (request) => {
 
     if (!lastMessage) {
       return new NextResponse(
-        JSON.stringify({ error: "No messages found between these users" }),
+        JSON.stringify({
+          error: "No messages found between these users",
+          lastMessageTime: null,
+          lastMessageContent: null,
+          unreadCount: 0,
+        }),
         { status: 404 }
       );
     }
+
+    const unreadCount = await Message.countDocuments({
+      sender: receiverId,
+      receiver: senderId,
+      read: false,
+    });
 
     return new NextResponse(
       JSON.stringify({
         lastMessageTime: lastMessage.timestamp,
         lastMessageContent: lastMessage.content,
+        unreadCount,
       }),
       { status: 200 }
     );

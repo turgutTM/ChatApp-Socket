@@ -5,16 +5,11 @@ import { LiaCheckDoubleSolid } from "react-icons/lia";
 import { useSelector } from "react-redux";
 import Skeleton from "./Skeleton";
 
-const Chatprofile = ({
-  setSelectedProfileId,
-  setSelectedProfileData,
-  selectedProfileId,
-}) => {
+const Chatprofile = ({ setSelectedProfileId, setSelectedProfileData }) => {
   const [friends, setFriends] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [lastMessageData, setLastMessageData] = useState({});
   const [loading, setLoading] = useState(true);
-
   const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
@@ -25,41 +20,39 @@ const Chatprofile = ({
         if (response.ok) {
           const data = await response.json();
           setFriends(data.friends || []);
-
           const lastMessagePromises = data.friends.map(async (friend) => {
             const lastMessageResponse = await fetch(
               `/api/last-message-time?senderId=${user._id}&receiverId=${friend._id}`
             );
             if (lastMessageResponse.ok) {
-              const lastMessageData = await lastMessageResponse.json();
-              console.log(
-                `Last message data for friend ${friend._id}:`,
-                lastMessageData
-              );
+              const { lastMessageTime, lastMessageContent, unreadCount } =
+                await lastMessageResponse.json();
               return {
                 friendId: friend._id,
-                lastMessageTime: lastMessageData.lastMessageTime,
-                lastMessage: lastMessageData.lastMessageContent,
+                lastMessageTime,
+                lastMessage: lastMessageContent,
+                unreadCount,
               };
             }
             return {
               friendId: friend._id,
               lastMessageTime: "No messages",
               lastMessage: "No recent messages",
+              unreadCount: 0,
             };
           });
-
           const lastMessageResults = await Promise.all(lastMessagePromises);
           const lastMessageMap = {};
           lastMessageResults.forEach(
-            ({ friendId, lastMessageTime, lastMessage }) => {
-              lastMessageMap[friendId] = { lastMessageTime, lastMessage };
+            ({ friendId, lastMessageTime, lastMessage, unreadCount }) => {
+              lastMessageMap[friendId] = {
+                lastMessageTime,
+                lastMessage,
+                unreadCount,
+              };
             }
           );
-          console.log("Last message map:", lastMessageMap);
           setLastMessageData(lastMessageMap);
-        } else {
-          console.error("Failed to fetch friends");
         }
       } catch (error) {
         console.error("Error fetching friends:", error);
@@ -67,7 +60,6 @@ const Chatprofile = ({
         setLoading(false);
       }
     };
-
     fetchFriendsAndLastMessages();
   }, [user._id]);
 
@@ -87,8 +79,6 @@ const Chatprofile = ({
       if (response.ok) {
         const profileData = await response.json();
         setSelectedProfileData(profileData);
-      } else {
-        console.error("Failed to fetch profile data");
       }
     } catch (error) {
       console.error("Error fetching profile data:", error);
@@ -132,7 +122,7 @@ const Chatprofile = ({
                     alt={`${friend.name}'s profile`}
                   />
                 </div>
-                <div className="flex flex-col w-[14rem] overflow-auto break-words ">
+                <div className="flex flex-col w-[14rem] overflow-auto break-words">
                   <div className="flex items-center justify-between gap-4">
                     <p className="font-medium">{`${friend.name} ${friend.surname}`}</p>
                     {friend.lastMessageStatus === "read" && (
@@ -146,10 +136,17 @@ const Chatprofile = ({
                         : "No messages"}
                     </p>
                   </div>
-                  <p className="text-gray-400 w-full  whitespace-nowrap overflow-hidden text-ellipsis">
-                    {lastMessageData[friend._id]?.lastMessage ||
-                      "No recent messages"}
-                  </p>
+                  <div className=" flex justify-between w-full ">
+                    <p className="text-gray-400 w-full whitespace-nowrap overflow-hidden text-ellipsis">
+                      {lastMessageData[friend._id]?.lastMessage ||
+                        "No recent messages"}
+                    </p>
+                    {lastMessageData[friend._id]?.unreadCount > 0 && (
+                      <span className="text-xs font-semibold border rounded-full text-white bg-green-500 p-2 w-4 h-4 justify-center flex items-center  ">
+                        {lastMessageData[friend._id].unreadCount}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             ))
